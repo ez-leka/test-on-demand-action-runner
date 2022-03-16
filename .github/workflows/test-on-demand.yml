@@ -5,10 +5,10 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  #push:
+  #  branches: [ main ]
+  #pull_request:
+  #  branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -31,18 +31,12 @@ jobs:
       - uses: actions/checkout@v2
 
       # Build test program
-      - name: Build
-        run: |
-          make
+      - run: make all
 
   github-run:
-    runs-on: ubuntu-latest
     needs: test-build
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: copy executable
-        run: cp bin/main ./runable
-
-      - name: run executable 
-        run: ./runable "Hello there"
+      - run: cp bin/main ./runable
+      - run: ./runable "Hello there"
 
