@@ -3,3 +3,5 @@ bin
 
 #ignore object files
 src/*.o
+test-ci-workflow.yaml
+runable
