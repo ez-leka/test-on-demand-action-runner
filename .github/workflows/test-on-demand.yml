@@ -39,9 +39,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: test-build
     steps:
-      -name: copy executable
-       run: cp bin/main ./runable
-       
-      -name: run executable
-       run: ./runable
+      - uses: actions/checkout@v2
+      - name: copy executable
+        run: cp bin/main ./runable
+
+      - name: run executable
+        run: ./runable
 
