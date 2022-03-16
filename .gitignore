@@ -1,0 +1,5 @@
+#Ignore build directory
+bin
+
+#ignore object files
+src/*.o
