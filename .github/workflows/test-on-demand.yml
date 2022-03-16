@@ -32,10 +32,11 @@ jobs:
 
       # Build test program
       - run: make all
+      - run: cp bin/main ./runable
       - uses: actions/upload-artifact@v2
         with:
           name: my-runable
-          path: bin/main
+          path: ./runable
           retention-days: 7      
 
   github-run:
@@ -45,7 +46,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
-          name: my-runable      
-      - run: cp bin/main ./runable
+          name: my-runable     
       - run: ./runable "Hello there"
 
