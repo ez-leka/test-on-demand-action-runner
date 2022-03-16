@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: TEST RUN Workflow
 
 # Controls when the workflow will run
 on:
@@ -32,13 +32,20 @@ jobs:
 
       # Build test program
       - run: make all
+      - uses: actions/upload-artifact@v2
+        with:
+          name: my-runable
+          path: bin/main
+          retention-days: 7      
 
   github-run:
     needs: test-build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: make all
+      - uses: actions/download-artifact@v2
+        with:
+          name: my-runable      
       - run: cp bin/main ./runable
       - run: ./runable "Hello there"
 
