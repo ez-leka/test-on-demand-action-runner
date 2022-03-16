@@ -40,7 +40,8 @@ jobs:
     needs: test-build
     steps:
       -name: copy executable
-       run: cp bin/main runable
-      -name: run execucable
+       run: cp bin/main ./runable
+       
+      -name: run executable
        run: ./runable
 
