@@ -43,6 +43,6 @@ jobs:
       - name: copy executable
         run: cp bin/main ./runable
 
-      - name: run executable
-        run: ./runable
+      - name: run executable 
+        run: ./runable "Hello there"
 
