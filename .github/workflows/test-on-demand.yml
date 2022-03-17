@@ -20,6 +20,38 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # starts ephemeral self-hosted runner in AWS. Cleanup in the stop-runner.
+  start-runner:
+    name: Start self-hosted EC2 runner
+    runs-on: ubuntu-latest
+    outputs:
+      label: ${{ steps.start-ec2-runner.outputs.label }}
+      ec2-instance-id: ${{ steps.start-ec2-runner.outputs.ec2-instance-id }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-2" # ${{ secrets.AWS_REGION }}
+
+      # Hardcoded subnet, security group, and ami below are part of dedicated VPC that was created manually in
+      # us-east-2 for the purpose of hosting these runners. VPC is mentioned in km-ci-cleanup.yaml
+      # TODO: consider single place to store these
+      # TODO: automate creation of the AMI using packer
+      - name: Start EC2 runner
+        id: start-ec2-runner
+        uses: kontainapp/ec2-github-runner@v3
+        with:
+          mode: start
+          github-token: ${{ secrets.GH_TOKEN }}
+          ec2-image-id: ami-0ea2673b7647525d5
+          ec2-instance-type: "m5.xlarge"
+          subnet-id: subnet-0b08063a20ac8eb3b
+          security-group-id: sg-06513d09d62c1d626
+          runner-user: ubuntu
+          aws-resource-tags: '[{"Key": "Name", "Value": "ci-${{ github.run_number }}-runner"}]'
+
   # This workflow contains a single job called "build"
   test-build:
     # The type of runner that the job will run on
@@ -50,3 +82,57 @@ jobs:
       - run: chmod +x ./runable
       - run: ./runable "Hello there"
 
+  ec2-run:
+    needs: [start-runner, test-build]
+    runs-on: ${{ needs.start-runner.outputs.label }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: my-runable  
+      - run: cat /etc/os-release
+      - run: id 
+      - run: chmod +x ./runable
+      - run: ./runable "Hello there"
+
+  # These two steps are to clean up on-demand runner. They work in conjunction with start-runner.
+  # Make sure to add dependencies in both "needs" clauses
+  stop-runner:
+    name: Terminate self-hosted EC2 runner
+    needs: [start-runner, test-build, ec2-run]
+    runs-on: ubuntu-latest
+    if: ${{ ! failure() }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-2"
+      - name: Stop EC2 runner
+        uses: kontainapp/ec2-github-runner@v3
+        with:
+          mode: stop
+          github-token: ${{ secrets.GH_TOKEN }}
+          label: ${{ needs.start-runner.outputs.label }}
+          ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
+
+  stop-and-keep-runner:
+    name: Stop self-hosted EC2 runner
+    needs: [start-runner, test-build, ec2-run]
+    runs-on: ubuntu-latest
+    if: ${{ failure() }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-2"
+      - name: Suspend EC2 runner
+        uses: kontainapp/ec2-github-runner@v3
+        with:
+          mode: suspend
+          github-token: ${{ secrets.GH_TOKEN }}
+          label: ${{ needs.start-runner.outputs.label }}
+          ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
