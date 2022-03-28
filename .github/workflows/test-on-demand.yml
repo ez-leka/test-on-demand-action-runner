@@ -47,7 +47,7 @@ jobs:
           status: false
           github-token: ${{ secrets.GH_TOKEN }}
           runner-user: kontain
-          ec2-image-id: ami-0ea2673b7647525d5
+          ec2-image-id: ami-0e8a31273f90da49d
           ec2-instance-type: "m5.xlarge"
           ec2-subnet-id: subnet-0b08063a20ac8eb3b
           ec2-security-group-id: sg-06513d09d62c1d626
