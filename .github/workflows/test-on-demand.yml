@@ -44,13 +44,13 @@ jobs:
         uses: kontainapp/ec2-github-runner@ez1
         with:
           mode: start
+          status: false
           github-token: ${{ secrets.GH_TOKEN }}
           runner-user: kontain
           ec2-image-id: ami-0ea2673b7647525d5
           ec2-instance-type: "m5.xlarge"
           ec2-subnet-id: subnet-0b08063a20ac8eb3b
           ec2-security-group-id: sg-06513d09d62c1d626
-          #aws-resource-tags: '[{"Key": "Name", "Value": "ci-${{ github.run_number }}-runner"}]'
           az-subscription-id: ${{ secrets.SP_SUBSCRIPTION_ID }}
           az-client-id: ${{ secrets.SP_APPID }}
           az-secret: ${{ secrets.SP_PASSWORD }}
