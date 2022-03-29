@@ -125,3 +125,8 @@ jobs:
           github-token: ${{ secrets.GH_TOKEN }}
           label: ${{ needs.start-runner.outputs.label }}
           ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
+          az-subscription-id: ${{ secrets.SP_SUBSCRIPTION_ID }}
+          az-client-id: ${{ secrets.SP_APPID }}
+          az-secret: ${{ secrets.SP_PASSWORD }}
+          az-tenant-id: ${{ secrets.SP_TENANT }}
+
