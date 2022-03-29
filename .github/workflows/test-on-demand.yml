@@ -25,8 +25,8 @@ jobs:
     name: Start self-hosted cloud runners
     runs-on: ubuntu-latest
     outputs:
-      label: ${{ steps.start-ec2-runner.outputs.label }}
-      ec2-instance-id: ${{ steps.start-ec2-runner.outputs.ec2-instance-id }}
+      label: ${{ steps.start-cloud-runner.outputs.label }}
+      ec2-instance-id: ${{ steps.start-cloud-runner.outputs.ec2-instance-id }}
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -122,8 +122,8 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "us-east-2"
-      - run: echo lala ${{ github.action_status }} lala 
-      - name: Stop EC2 runner
+      - run: echo lala ${{ github }} lala 
+      - name: Stop cloud runner
         uses: kontainapp/ec2-github-runner@ez1
         with:
           mode: stop
