@@ -22,7 +22,7 @@ on:
 jobs:
   # starts ephemeral self-hosted runner in AWS. Cleanup in the stop-runner.
   start-runner:
-    name: Start self-hosted EC2 runner
+    name: Start self-hosted cloud runners
     runs-on: ubuntu-latest
     outputs:
       label: ${{ steps.start-ec2-runner.outputs.label }}
@@ -39,12 +39,11 @@ jobs:
       # us-east-2 for the purpose of hosting these runners. VPC is mentioned in km-ci-cleanup.yaml
       # TODO: consider single place to store these
       # TODO: automate creation of the AMI using packer
-      - name: Start EC2 runner
-        id: start-ec2-runner
+      - name: Start cloud runners
+        id: start-cloud-runner
         uses: kontainapp/ec2-github-runner@ez1
         with:
           mode: start
-          status: false
           github-token: ${{ secrets.GH_TOKEN }}
           runner-user: ubuntu
           ec2-image-id: ami-0e8a31273f90da49d
@@ -107,7 +106,7 @@ jobs:
   # These two steps are to clean up on-demand runner. They work in conjunction with start-runner.
   # Make sure to add dependencies in both "needs" clauses
   stop-runner:
-    name: Terminate self-hosted EC2 runner
+    name: Terminate self-hosted cloud runners
     needs: [start-runner, test-build, ec2-run]
     if: always()
     runs-on: ubuntu-latest
