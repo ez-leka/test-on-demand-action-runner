@@ -121,7 +121,7 @@ jobs:
         uses: kontainapp/ec2-github-runner@ez1
         with:
           mode: stop
-          is-failure: 'true'
+          is-failure: ${{ needs.start-runner.status=='failure'||needs.test-build.status=='failure'||needs.ec2-run.status=='failure' }}
           github-token: ${{ secrets.GH_TOKEN }}
           label: ${{ needs.start-runner.outputs.label }}
           ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
