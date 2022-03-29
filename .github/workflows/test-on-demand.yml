@@ -38,7 +38,10 @@ jobs:
         uses: actions/checkout@v2
       - run: |
           pwd
-          ls -l
+          ls -l 
+          ls -la cloud
+          ls -la /cloud/azure
+          ls -la /cloud/azure/ssh
 
       # Hardcoded subnet, security group, and ami below are part of dedicated VPC that was created manually in
       # us-east-2 for the purpose of hosting these runners. VPC is mentioned in km-ci-cleanup.yaml
@@ -64,7 +67,7 @@ jobs:
           az-location: "westus"
           az-subnet: "10.0.0.0"
           az-vm-size: "Standard_B1ls"
-          az-public-keys: ${{ github.workspace }}/cloud/azure/ssh
+          az-public-keys: ${{ github.workspace }}/cloud/ssh
 
   # This workflow contains a single job called "build"
   test-build:
