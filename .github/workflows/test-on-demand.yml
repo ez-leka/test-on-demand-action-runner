@@ -20,13 +20,14 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # starts ephemeral self-hosted runner in AWS. Cleanup in the stop-runner.
+  # starts ephemeral self-hosted runner in Clouds (AWS and AZURE suported for now). Cleanup in the stop-runner.
   start-runner:
     name: Start self-hosted cloud runners
     runs-on: ubuntu-latest
     outputs:
       label: ${{ steps.start-cloud-runner.outputs.label }}
       ec2-instance-id: ${{ steps.start-cloud-runner.outputs.ec2-instance-id }}
+      run-ons: ${{ fromJSON(steps.start-cloud-runner.outputs.run-ons) }}
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -95,7 +96,20 @@ jobs:
 
   ec2-run:
     needs: [start-runner, test-build]
-    runs-on: ${{ needs.start-runner.outputs.label }}
+    runs-on: ${{ needs.start-runner.outputs.run-ons.ec2 }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: my-runable  
+      - run: cat /etc/os-release
+      - run: id 
+      - run: chmod +x ./runable
+      - run: ./runable "Hello there"
+
+  azure-run:
+    needs: [start-runner, test-build]
+    runs-on: ${{ needs.start-runner.outputs.run-ons.azure }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
