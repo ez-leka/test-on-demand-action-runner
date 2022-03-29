@@ -46,7 +46,7 @@ jobs:
           mode: start
           status: false
           github-token: ${{ secrets.GH_TOKEN }}
-          runner-user: kontain
+          runner-user: ubuntu
           ec2-image-id: ami-0e8a31273f90da49d
           ec2-instance-type: "m5.xlarge"
           ec2-subnet-id: subnet-0b08063a20ac8eb3b
