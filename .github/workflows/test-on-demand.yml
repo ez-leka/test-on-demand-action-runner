@@ -34,7 +34,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "us-east-2" # ${{ secrets.AWS_REGION }}
-
+      - name: Get public Keys 
+        uses: actions/checkout@v2
+        run: pwd
+        
       # Hardcoded subnet, security group, and ami below are part of dedicated VPC that was created manually in
       # us-east-2 for the purpose of hosting these runners. VPC is mentioned in km-ci-cleanup.yaml
       # TODO: consider single place to store these
@@ -58,7 +61,7 @@ jobs:
           az-location: "westus"
           az-subnet: "10.0.0.0"
           az-vm-size: "Standard_B1ls"
-          az-public-keys: "/Users/leka/workspace/km/cloud/azure/ssh"
+          az-public-keys: "cloud/azure/ssh"
 
   # This workflow contains a single job called "build"
   test-build:
