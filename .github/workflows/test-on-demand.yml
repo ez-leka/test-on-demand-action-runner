@@ -36,12 +36,6 @@ jobs:
           aws-region: "us-east-2" # ${{ secrets.AWS_REGION }}
       - name: Get public Keys 
         uses: actions/checkout@v2
-      - run: |
-          pwd
-          ls -l 
-          ls -la cloud
-          ls -la /cloud/azure
-          ls -la /cloud/azure/ssh
 
       # Hardcoded subnet, security group, and ami below are part of dedicated VPC that was created manually in
       # us-east-2 for the purpose of hosting these runners. VPC is mentioned in km-ci-cleanup.yaml
