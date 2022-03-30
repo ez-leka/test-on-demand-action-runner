@@ -25,16 +25,15 @@ jobs:
     name: Start self-hosted cloud runners
     runs-on: ubuntu-latest
     outputs:
-      #label: ${{ steps.start-cloud-runner.outputs.label }}
       ec2-instance-id: ${{ steps.start-cloud-runner.outputs.ec2-instance-id }}
       run-ons: ${{ steps.start-cloud-runner.outputs.run-ons }}
     steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "us-east-2" # ${{ secrets.AWS_REGION }}
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: "us-east-2" # ${{ secrets.AWS_REGION }}
       - name: Get public Keys 
         uses: actions/checkout@v2
 
@@ -47,9 +46,11 @@ jobs:
         uses: kontainapp/ec2-github-runner@ez1
         with:
           mode: start
-          status: ${{ toJSON(github) }}
           github-token: ${{ secrets.GH_TOKEN }}
           runner-user: ubuntu
+          ec2-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          ec2-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ec2-region: "us-east-2" # ${{ secrets.AWS_REGION }}
           ec2-image-id: ami-02fac8dbb6541c3ff
           ec2-instance-type: "m5.xlarge"
           ec2-subnet-id: subnet-0b08063a20ac8eb3b
