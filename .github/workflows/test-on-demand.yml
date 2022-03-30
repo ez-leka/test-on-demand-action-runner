@@ -109,7 +109,7 @@ jobs:
 
   azure-run:
     needs: [start-runner, test-build]
-    runs-on: ${{ fromJSON(needs.start-runner.outputs.run-ons.azure)['azure'] }}
+    runs-on: ${{ fromJSON(needs.start-runner.outputs.run-ons)['azure'] }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
