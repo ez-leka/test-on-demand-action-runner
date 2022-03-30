@@ -25,7 +25,7 @@ jobs:
     name: Start self-hosted cloud runners
     runs-on: ubuntu-latest
     outputs:
-      label: ${{ steps.start-cloud-runner.outputs.label }}
+      #label: ${{ steps.start-cloud-runner.outputs.label }}
       ec2-instance-id: ${{ steps.start-cloud-runner.outputs.ec2-instance-id }}
       run-ons: ${{ steps.start-cloud-runner.outputs.run-ons }}
     steps:
@@ -140,7 +140,6 @@ jobs:
           mode: stop
           status: ${{ toJSON(needs) }}
           github-token: ${{ secrets.GH_TOKEN }}
-          label: ${{ needs.start-runner.outputs.label }}
           ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
           az-subscription-id: ${{ secrets.SP_SUBSCRIPTION_ID }}
           az-client-id: ${{ secrets.SP_APPID }}
