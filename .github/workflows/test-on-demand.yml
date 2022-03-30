@@ -27,7 +27,7 @@ jobs:
     outputs:
       label: ${{ steps.start-cloud-runner.outputs.label }}
       ec2-instance-id: ${{ steps.start-cloud-runner.outputs.ec2-instance-id }}
-      run-ons: ${{ fromJSON(steps.start-cloud-runner.outputs.run-ons) }}
+      run-ons: ${{ steps.start-cloud-runner.outputs.run-ons }}
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -96,7 +96,7 @@ jobs:
 
   ec2-run:
     needs: [start-runner, test-build]
-    runs-on: ${{ needs.start-runner.outputs.run-ons.ec2 }}
+    runs-on: ${{ fromJSON(needs.start-runner.outputs.run-ons)['ec2'] }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
@@ -109,7 +109,7 @@ jobs:
 
   azure-run:
     needs: [start-runner, test-build]
-    runs-on: ${{ needs.start-runner.outputs.run-ons.azure }}
+    runs-on: ${{ fromJSON(needs.start-runner.outputs.run-ons.azure)['azure'] }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
@@ -124,7 +124,7 @@ jobs:
   # Make sure to add dependencies in both "needs" clauses
   stop-runner:
     name: Terminate self-hosted cloud runners
-    needs: [start-runner, test-build, ec2-run]
+    needs: [start-runner, test-build, ec2-run, azure-run]
     if: always()
     runs-on: ubuntu-latest
     steps:
