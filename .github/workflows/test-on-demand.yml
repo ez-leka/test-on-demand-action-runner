@@ -51,7 +51,7 @@ jobs:
           ec2-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           ec2-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           ec2-region: "us-east-2" # ${{ secrets.AWS_REGION }}
-          ec2-image-id: ami-02fac8dbb6541c3ff
+          ec2-image-id: ami-066ef15c55084619f
           ec2-instance-type: "m5.xlarge"
           ec2-subnet-id: subnet-0b08063a20ac8eb3b
           ec2-security-group-id: sg-06513d09d62c1d626
