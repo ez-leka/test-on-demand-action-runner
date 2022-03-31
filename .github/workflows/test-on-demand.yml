@@ -129,18 +129,20 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "us-east-2"
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: "us-east-2"
       - name: Stop cloud runner
         uses: kontainapp/ec2-github-runner@ez1
         with:
           mode: stop
           status: ${{ toJSON(needs) }}
           github-token: ${{ secrets.GH_TOKEN }}
+          ec2-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          ec2-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
           az-subscription-id: ${{ secrets.SP_SUBSCRIPTION_ID }}
           az-client-id: ${{ secrets.SP_APPID }}
