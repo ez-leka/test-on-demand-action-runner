@@ -25,7 +25,7 @@ jobs:
     name: Start self-hosted cloud runners
     runs-on: ubuntu-latest
     outputs:
-      ec2-instance-id: ${{ steps.start-cloud-runner.outputs.ec2-instance-id }}
+      //ec2-instance-id: ${{ steps.start-cloud-runner.outputs.ec2-instance-id }}
       run-ons: ${{ steps.start-cloud-runner.outputs.run-ons }}
     steps:
       # - name: Configure AWS credentials
@@ -48,20 +48,19 @@ jobs:
           mode: start
           github-token: ${{ secrets.GH_TOKEN }}
           runner-user: ubuntu
+          subnet: "10.0.0.0"
           ec2-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           ec2-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           ec2-region: "us-east-2"
-          ec2-image-id: ami-066ef15c55084619f
+          ec2-image: 'L0BaseAWSImage'
           ec2-instance-type: "m5.xlarge"
-          ec2-subnet-id: subnet-0b08063a20ac8eb3b
-          ec2-security-group-id: sg-06513d09d62c1d626
+          ec2-vpc-name: 'github-runner'
           az-subscription-id: ${{ secrets.SP_SUBSCRIPTION_ID }}
           az-client-id: ${{ secrets.SP_APPID }}
           az-secret: ${{ secrets.SP_PASSWORD }}
           az-tenant-id: ${{ secrets.SP_TENANT }}
           az-image: "auto-github-runner:L0BaseImage"
           az-location: "westus"
-          az-subnet: "10.0.0.0"
           az-vm-size: "Standard_B1ls"
           az-public-keys: ${{ github.workspace }}/cloud/ssh
 
