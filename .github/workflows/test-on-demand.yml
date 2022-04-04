@@ -143,7 +143,7 @@ jobs:
           ec2-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           ec2-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           ec2-region: "us-east-2"
-          ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
+          # ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
           az-subscription-id: ${{ secrets.SP_SUBSCRIPTION_ID }}
           az-client-id: ${{ secrets.SP_APPID }}
           az-secret: ${{ secrets.SP_PASSWORD }}
