@@ -47,7 +47,11 @@ jobs:
           ec2-image: 'L0BaseAWSImage'
           ec2-instance-type: "m5.xlarge"
           ec2-vpc-name: 'github-runner'
-          ec2-tags: "[{'Key':'MyTag', 'Value':'MyValue'}]"
+          ec2-tags: > #optional
+            [
+              {"Key": "MyKey 1", "Value": "test-value-1"}
+              {"Key": "MyKey 2", "Value": "test-value-2"}
+            ]
           az-subscription-id: ${{ secrets.SP_SUBSCRIPTION_ID }}
           az-client-id: ${{ secrets.SP_APPID }}
           az-secret: ${{ secrets.SP_PASSWORD }}
