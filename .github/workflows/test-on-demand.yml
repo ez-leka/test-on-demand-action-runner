@@ -49,7 +49,7 @@ jobs:
           ec2-vpc-name: 'github-runner'
           ec2-tags: > #optional
             [
-              {"Key": "MyKey 1", "Value": "test-value-1"}
+              {"Key": "MyKey 1", "Value": "test-value-1"},
               {"Key": "MyKey 2", "Value": "test-value-2"}
             ]
           az-subscription-id: ${{ secrets.SP_SUBSCRIPTION_ID }}
