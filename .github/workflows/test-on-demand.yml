@@ -20,7 +20,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # starts ephemeral self-hosted runner in Clouds (AWS and AZURE suported for now). Cleanup in the stop-runner.
+  # starts  self-hosted runner in Clouds (AWS and AZURE suported for now). Cleanup in the stop-runner.
   start-runner:
     name: Start self-hosted cloud runners
     runs-on: ubuntu-latest
@@ -28,23 +28,14 @@ jobs:
       //ec2-instance-id: ${{ steps.start-cloud-runner.outputs.ec2-instance-id }}
       run-ons: ${{ steps.start-cloud-runner.outputs.run-ons }}
     steps:
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: "us-east-2" # ${{ secrets.AWS_REGION }}
       - name: Get public Keys 
         uses: actions/checkout@v2
 
-      # Hardcoded subnet, security group, and ami below are part of dedicated VPC that was created manually in
-      # us-east-2 for the purpose of hosting these runners. VPC is mentioned in km-ci-cleanup.yaml
-      # TODO: consider single place to store these
-      # TODO: automate creation of the AMI using packer
       - name: Start cloud runners
         id: start-cloud-runner
         uses: kontainapp/ec2-github-runner@ez1
         with:
+          clouds: ec2
           mode: start
           github-token: ${{ secrets.GH_TOKEN }}
           runner-user: ubuntu
@@ -56,6 +47,7 @@ jobs:
           ec2-image: 'L0BaseAWSImage'
           ec2-instance-type: "m5.xlarge"
           ec2-vpc-name: 'github-runner'
+          ec2-tags: "[{'Key':'MyTag', 'Value':'MyValue'}]"
           az-subscription-id: ${{ secrets.SP_SUBSCRIPTION_ID }}
           az-client-id: ${{ secrets.SP_APPID }}
           az-secret: ${{ secrets.SP_PASSWORD }}
@@ -66,7 +58,7 @@ jobs:
       
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
-  # This workflow contains a single job called "build"
+ 
   test-build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -130,12 +122,6 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: "us-east-2"
       - name: Stop cloud runner
         uses: kontainapp/ec2-github-runner@ez1
         with:
@@ -145,7 +131,6 @@ jobs:
           ec2-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           ec2-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           ec2-region: "us-east-2"
-          # ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
           az-subscription-id: ${{ secrets.SP_SUBSCRIPTION_ID }}
           az-client-id: ${{ secrets.SP_APPID }}
           az-secret: ${{ secrets.SP_PASSWORD }}
