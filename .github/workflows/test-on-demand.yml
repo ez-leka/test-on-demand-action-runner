@@ -49,6 +49,7 @@ jobs:
           github-token: ${{ secrets.GH_TOKEN }}
           runner-user: ubuntu
           subnet: "10.0.0.0"
+          public-keys-dir: ${{ github.workspace }}/cloud/ssh
           ec2-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           ec2-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           ec2-region: "us-east-2"
@@ -62,7 +63,6 @@ jobs:
           az-image: "auto-github-runner:L0BaseImage"
           az-location: "westus"
           az-vm-size: "Standard_B1ls"
-          az-public-keys: ${{ github.workspace }}/cloud/ssh
 
   # This workflow contains a single job called "build"
   test-build:
