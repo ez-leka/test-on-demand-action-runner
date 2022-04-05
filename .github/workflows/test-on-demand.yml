@@ -63,7 +63,9 @@ jobs:
           az-image: "auto-github-runner:L0BaseImage"
           az-location: "westus"
           az-vm-size: "Standard_B1ls"
-
+      
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
   # This workflow contains a single job called "build"
   test-build:
     # The type of runner that the job will run on
