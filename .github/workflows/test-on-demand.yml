@@ -35,7 +35,7 @@ jobs:
         id: start-cloud-runner
         uses: kontainapp/ec2-github-runner@ez1
         with:
-          clouds: ec2
+          # clouds: ec2
           mode: start
           github-token: ${{ secrets.GH_TOKEN }}
           runner-user: ubuntu
@@ -47,7 +47,7 @@ jobs:
           ec2-image: 'L0BaseAWSImage'
           ec2-instance-type: "m5.xlarge"
           ec2-vpc-name: 'github-runner'
-          ec2-tags: > #optional
+          ec2-tags: > 
             [
               {"Key": "MyKey 1", "Value": "test-value-1"},
               {"Key": "MyKey 2", "Value": "test-value-2"}
