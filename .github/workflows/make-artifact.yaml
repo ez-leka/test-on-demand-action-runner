@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: ARTIFACT TEST
+name: MAKE ARTIFACT
 
 # Controls when the workflow will run
 on:
@@ -22,11 +22,28 @@ on:
 jobs:
   # starts  self-hosted runner in Clouds (AWS and AZURE suported for now). Cleanup in the stop-runner.
   test:
-    name: Test reading 
+    name: Make artifact
     runs-on: ubuntu-latest
     steps:
-      - name: read artifact
-        id: read-artifact
-        uses: ez-leka/workflow_artifact@ez1
+      - name: Generate file
+        id: generate-file
+        run: |
+          echo 'my artifact file content' > art.txt
+          echo '  line 1' >> art.txt
+          echo '  line 2' >> art.txt
+          echo '  line 3' >> art.txt
+
+      - uses: actions/upload-artifact@v2
         with:
-          github-token: ${{ secrets.GH_TOKEN }}          
+          name: interworkflow-artifact
+          path: ./art.txt
+          retention-days: 90      
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: interworkflow-artifact
+
+      - run: |
+          cat ./art.txt    
+
+
