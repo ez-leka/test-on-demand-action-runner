@@ -34,7 +34,7 @@ jobs:
           path: .
     
       - name: Build artifact if necessary
-        if: ${{ check-artifact.outputs.artifact-status != 'available' }}
+        if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
         run: |
           echo 'my artifact file content' > art.txt
           echo '  line 1' >> art.txt
@@ -42,7 +42,7 @@ jobs:
           echo '  line 3' >> art.txt
 
       - name: Upload artifact if needed 
-        if: ${{ check-artifact.outputs.artifact-status != 'available' }}
+        if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
         uses: actions/upload-artifact@v2
         with:
           name: my-artifact
