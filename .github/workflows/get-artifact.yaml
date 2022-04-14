@@ -29,6 +29,6 @@ jobs:
         id: read-artifact
         uses: ez-leka/workflow_artifact@ez1
         with:
-          github-token: ${{ secrets.GH_TOKEN }} 
-          workflow: make-artifact
-          artifact-name: interworkflow-artifact        
+          github-token: ${{ secrets.GH_TOKEN }}
+          artifact-name: some-non-existent-artifact  
+          path: .      
