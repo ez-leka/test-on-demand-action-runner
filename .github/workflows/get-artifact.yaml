@@ -25,10 +25,27 @@ jobs:
     name: Test reading 
     runs-on: ubuntu-latest
     steps:
-      - name: read artifact
-        id: read-artifact
+      - name: check artifact
+        id: check-artifact
         uses: ez-leka/workflow_artifact@ez1
         with:
           github-token: ${{ secrets.GH_TOKEN }}
-          artifact-name: some-non-existent-artifact  
-          path: .      
+          artifact-name: my-artifact  
+          path: .
+    
+      - name: Build artifact if necessary
+        if: ${{ check-artifact.outputs.artifact-status != 'available' }}
+        run: |
+          echo 'my artifact file content' > art.txt
+          echo '  line 1' >> art.txt
+          echo '  line 2' >> art.txt
+          echo '  line 3' >> art.txt
+
+      - name: Upload artifact if needed 
+        if: ${{ check-artifact.outputs.artifact-status != 'available' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: .
+          retention-days: 7  
+
