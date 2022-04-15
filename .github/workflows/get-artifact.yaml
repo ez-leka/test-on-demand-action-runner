@@ -25,14 +25,20 @@ jobs:
     name: Test reading 
     runs-on: ubuntu-latest
     steps:
+      
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
       - name: Set env
         run: echo "CRUN_SHA=$(git rev-parse --short=12 HEAD)" >> $GITHUB_ENV
+
       - name: check artifact
         id: check-artifact
         uses: ez-leka/persistent-artifact@ez1
         with:
           github-token: ${{ secrets.GH_TOKEN }}
-          artifact-name: ${{ env.CRUN_SHA}}  
+          artifact-name: ${{ env.CRUN_SHA }}  
           path: /tmp/kkm
 
       - name: Build artifact if necessary
