@@ -31,7 +31,7 @@ jobs:
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           artifact-name: my-artifact  
-          path: .
+          path: ./art.txt
     
       - name: Build artifact if necessary
         if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: my-artifact
-          path: .
+          path: ./art.txt
           retention-days: 7  
 
       - name: User artifact
