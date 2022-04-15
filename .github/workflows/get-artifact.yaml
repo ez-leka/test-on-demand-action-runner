@@ -49,3 +49,6 @@ jobs:
           path: .
           retention-days: 7  
 
+      - name: User artifact
+        run: |
+          cat ./art.txt
