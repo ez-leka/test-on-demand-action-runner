@@ -27,11 +27,12 @@ jobs:
     steps:
       - name: check artifact
         id: check-artifact
-        uses: ez-leka/workflow_artifact@ez1
+        uses: ez-leka/persistent_artifact@ez1
         with:
           github-token: ${{ secrets.GH_TOKEN }}
-          artifact-name: my-artifact  
-    
+          artifact-name: p-artifact  
+          path: /tmp/kkm
+
       - name: Build artifact if necessary
         if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
         run: |
@@ -39,15 +40,17 @@ jobs:
           echo '  line 1' >> art.txt
           echo '  line 2' >> art.txt
           echo '  line 3' >> art.txt
+          mkdir /tmp/kkm
+          cp art.txt /tmp/kkm
 
       - name: Upload artifact if needed 
         if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
         uses: actions/upload-artifact@v2
         with:
-          name: my-artifact
-          path: ./art.txt
+          name: p-artifact
+          path: /tmp/kkm
           retention-days: 7  
 
       - name: User artifact
         run: |
-          cat ./art.txt
+          cat /tmp/kkm/art.txt
