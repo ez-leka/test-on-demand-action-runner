@@ -25,12 +25,14 @@ jobs:
     name: Test reading 
     runs-on: ubuntu-latest
     steps:
+      - name: Set env
+        run: echo "CRUN_SHA=$(git rev-parse --short=12 HEAD)" >> $GITHUB_ENV
       - name: check artifact
         id: check-artifact
         uses: ez-leka/persistent-artifact@ez1
         with:
           github-token: ${{ secrets.GH_TOKEN }}
-          artifact-name: p-artifact  
+          artifact-name: ${{ env.CRUN_SHA}}  
           path: /tmp/kkm
 
       - name: Build artifact if necessary
@@ -47,7 +49,7 @@ jobs:
         if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
         uses: actions/upload-artifact@v2
         with:
-          name: p-artifact
+          name: ${{ env.CRUN_SHA}}
           path: /tmp/kkm
           retention-days: 7  
 
