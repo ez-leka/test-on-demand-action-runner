@@ -31,7 +31,6 @@ jobs:
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           artifact-name: my-artifact  
-          path: ./art.txt
     
       - name: Build artifact if necessary
         if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
