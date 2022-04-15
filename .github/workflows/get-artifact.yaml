@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: check artifact
         id: check-artifact
-        uses: ez-leka/persistent_artifact@ez1
+        uses: ez-leka/persistent-artifact@ez1
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           artifact-name: p-artifact  
