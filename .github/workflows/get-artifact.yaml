@@ -57,7 +57,7 @@ jobs:
         if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.CRUN_SHA}}
+          name: p-artifact
           path: /tmp/kkm
           retention-days: 7  
 
