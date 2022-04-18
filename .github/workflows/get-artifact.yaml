@@ -64,4 +64,4 @@ jobs:
       - name: User artifact
         run: |
           cat /tmp/kkm/art.txt
-          cat /tmp/kkm/subdir/cart.txt
+          cat /tmp/kkm/subdir/sart.txt
