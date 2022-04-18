@@ -38,7 +38,7 @@ jobs:
         uses: ez-leka/persistent-artifact@ez1
         with:
           github-token: ${{ secrets.GH_TOKEN }}
-          artifact-name:  p-artifact1
+          artifact-name:  p-artifact2
           path: /tmp/kkm
 
       - name: Build artifact if necessary
@@ -57,7 +57,7 @@ jobs:
         if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
         uses: actions/upload-artifact@v2
         with:
-          name: p-artifact1
+          name: p-artifact2
           path: /tmp/kkm
           retention-days: 7  
 
