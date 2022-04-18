@@ -38,26 +38,26 @@ jobs:
         uses: ez-leka/persistent-artifact@ez1
         with:
           github-token: ${{ secrets.GH_TOKEN }}
-          artifact-name: ${{ env.CRUN_SHA }}  
+          artifact-name:  interworkflow-artifact
           path: /tmp/kkm
 
-      - name: Build artifact if necessary
-        if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
-        run: |
-          echo 'my artifact file content' > art.txt
-          echo '  line 1' >> art.txt
-          echo '  line 2' >> art.txt
-          echo '  line 3' >> art.txt
-          mkdir /tmp/kkm
-          cp art.txt /tmp/kkm
+      # - name: Build artifact if necessary
+      #   if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
+      #   run: |
+      #     echo 'my artifact file content' > art.txt
+      #     echo '  line 1' >> art.txt
+      #     echo '  line 2' >> art.txt
+      #     echo '  line 3' >> art.txt
+      #     mkdir /tmp/kkm
+      #     cp art.txt /tmp/kkm
 
-      - name: Upload artifact if needed 
-        if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.CRUN_SHA}}
-          path: /tmp/kkm
-          retention-days: 7  
+      # - name: Upload artifact if needed 
+      #   if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{ env.CRUN_SHA}}
+      #     path: /tmp/kkm
+      #     retention-days: 7  
 
       - name: User artifact
         run: |
