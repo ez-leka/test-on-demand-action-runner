@@ -39,6 +39,24 @@ jobs:
           path: ./art.txt
           retention-days: 90      
 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: interworkflow-artifact2
+          path: ./art.txt
+          retention-days: 2
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: interworkflow-artifact3
+          path: ./art.txt
+          retention-days: 90      
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: interworkflow-artifact4
+          path: ./art.txt
+          retention-days: 90      
+
       - uses: actions/download-artifact@v2
         with:
           name: interworkflow-artifact
