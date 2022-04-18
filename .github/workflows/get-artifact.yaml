@@ -49,9 +49,9 @@ jobs:
           echo '  line 2' >> art.txt
           echo '  line 3' >> art.txt
           mkdir /tmp/kkm
-          cp art.txt /tmp/kkm
+          mv art.txt /tmp/kkm
           mkdir /tmp/kkm/subdir
-          echo 'subdir artifact' >> sart.txt
+          echo 'subdir artifact' >> /tmp/kkm/subdir/sart.txt
 
       - name: Upload artifact if needed 
         if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
