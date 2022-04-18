@@ -38,7 +38,7 @@ jobs:
         uses: ez-leka/persistent-artifact@ez1
         with:
           github-token: ${{ secrets.GH_TOKEN }}
-          artifact-name:  interworkflow-artifact
+          artifact-name:  p-artifact
           path: /tmp/kkm
 
       - name: Build artifact if necessary
