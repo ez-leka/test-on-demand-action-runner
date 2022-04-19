@@ -32,6 +32,7 @@ runs:
       - name: do some shell
         run: |
           set -x
-          [ ! d current-runtime] mkdir ./current-runtime
+          echo KM_DIR = ${{km-dir}}
+          echo KRUN_PATH = ${{krun-path}}
           
          

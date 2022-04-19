@@ -23,4 +23,7 @@ jobs:
     name: Test reading 
     runs-on: ubuntu-latest
     steps:
-      uses: actions/substitute-action@v1
+      - uses: actions/substitute-action@v1
+        with:
+          km-dir: './'
+          krun-path: 'crun'
