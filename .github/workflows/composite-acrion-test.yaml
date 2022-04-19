@@ -22,8 +22,9 @@ jobs:
           submodules: recursive
         
       - run: |
+          set -x
           ls .
           ls .github
           ls .github/workflows/
 
-      - uses: ./.github/workflows/get-artifact
+      - uses: ./.github/workflows/get-artifact.yaml
