@@ -16,10 +16,8 @@ jobs:
   test-subworkflow:
     uses: ./.github/workflows/get-artifact.yaml
     name: "calling sub-workflow"
-    with:
-      github-token: ${{ secrets.GITHUB_TOKEN }}
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      token: ${{ secrets.GITHUB_TOKEN }}
       
 
   another-job:
