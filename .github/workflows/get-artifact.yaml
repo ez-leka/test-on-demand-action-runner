@@ -22,7 +22,10 @@ on:
       github-token:
         required: true
         type: string
-    
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # starts  self-hosted runner in Clouds (AWS and AZURE suported for now). Cleanup in the stop-runner.
@@ -42,7 +45,7 @@ jobs:
         id: check-artifact
         uses: ez-leka/persistent-artifact@ez1
         with:
-          github-token: ${{ github-token}}
+          github-token: ${{secrets.GITHUB_TOKEN}}
           artifact-name:  p-artifact2
           path: /tmp/kkm
           debug: true
