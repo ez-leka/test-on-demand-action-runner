@@ -2,12 +2,6 @@ name: COMPOSITE_ACTION
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  #push:
-  #  branches: [ main ]
-  #pull_request:
-  #  branches: [ main ]
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
@@ -19,18 +13,17 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # starts  self-hosted runner in Clouds (AWS and AZURE suported for now). Cleanup in the stop-runner.
-  test:
-    name: Test reading 
+  test-subworkflow:
+    name: Test calling subworkflow
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-
-      - name: bla 
-        run: |
+        
+      - run: |
           ls .
           ls .github
           ls .github/workflows/
 
-      - uses: .github/workflows/get-artifact
+      - uses: ./.github/workflows/get-artifact
