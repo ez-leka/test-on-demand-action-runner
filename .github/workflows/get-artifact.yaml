@@ -18,6 +18,10 @@ on:
         default: "regular"
         required: true
   workflow_call:
+    inputs:
+      github-token:
+        required: true
+        type: string
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -38,7 +42,7 @@ jobs:
         id: check-artifact
         uses: ez-leka/persistent-artifact@ez1
         with:
-          github-token: ${{ secrets.GH_TOKEN }}
+          github-token: ${{ github-token}}
           artifact-name:  p-artifact2
           path: /tmp/kkm
           debug: true
