@@ -40,8 +40,8 @@ jobs:
           github-token: ${{ secrets.GH_TOKEN }}
           artifact-name:  p-artifact2
           path: /tmp/kkm
-          debug: true
-          
+          # debug: true
+
       - name: Build artifact if necessary
         if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
         run: |
