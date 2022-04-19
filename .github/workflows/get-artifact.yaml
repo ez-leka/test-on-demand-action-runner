@@ -17,7 +17,8 @@ on:
         description: "Run type: regular or nightly"
         default: "regular"
         required: true
-
+  workflow_call:
+    
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # starts  self-hosted runner in Clouds (AWS and AZURE suported for now). Cleanup in the stop-runner.
