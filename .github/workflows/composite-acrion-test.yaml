@@ -14,8 +14,11 @@ on:
 jobs:
   # starts  self-hosted runner in Clouds (AWS and AZURE suported for now). Cleanup in the stop-runner.
   test-subworkflow:
-    name: Test calling subworkflow
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/get-artifact.yaml
+    name: "calling sub-workflow"
+
+  another-job:
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
         with:
