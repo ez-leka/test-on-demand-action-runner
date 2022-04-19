@@ -27,4 +27,10 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: ./.github/workflows/get-artifact
+      - name: bla 
+        run: |
+          ls .
+          ls .github
+          ls .github/workflows/
+
+      - uses: .github/workflows/get-artifact
