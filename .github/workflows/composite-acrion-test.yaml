@@ -24,7 +24,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: my composite
-      uses: actions/test-on-demand-action-runner@ez1    
+      uses: ./.github/workflows/action.yaml  
     
   check-artifact:
     runs-on: ubuntu-20.04
