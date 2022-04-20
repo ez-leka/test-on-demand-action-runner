@@ -30,7 +30,7 @@ jobs:
           ls .github/workflows/
           ls -l  ./.github/workflows/action.yaml
     - name: my composite
-      uses:  ez-leka/test-on-demand-action-runner/.github/workflows/action.yaml 
+      uses:  ez-leka/test-on-demand-action-runner/.github/workflows/action
     
   check-artifact:
     runs-on: ubuntu-20.04
