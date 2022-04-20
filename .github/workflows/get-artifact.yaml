@@ -66,6 +66,14 @@ jobs:
           path: /tmp/kkm
           retention-days: 7  
 
+      - name: Uload unconditional artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: /tmp/kkm
+          retention-days: 7  
+        
+
       - name: User artifact
         run: |
           cat /tmp/kkm/art.txt

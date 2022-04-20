@@ -19,7 +19,14 @@ jobs:
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
       
-
+  check-artifact:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: my-artifact
+          path: .
+          
   another-job:
     runs-on: ubuntu-20.04
     steps:
@@ -32,3 +39,5 @@ jobs:
           ls .
           ls .github
           ls .github/workflows/
+          cat ./art.txt
+          cat ./subdir/sart.txt
