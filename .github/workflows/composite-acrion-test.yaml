@@ -29,8 +29,7 @@ jobs:
           ls .github
           ls .github/workflows/
           ls -l  ./.github/workflows/action.yaml
-    - name: my composite
-      uses:  .github/workflows/action.yaml
+    - uses:  ./.github/workflows/action.yaml
     
   check-artifact:
     runs-on: ubuntu-20.04
