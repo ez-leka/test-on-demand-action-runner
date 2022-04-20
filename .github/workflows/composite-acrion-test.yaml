@@ -22,7 +22,7 @@ jobs:
   test-action:
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     - run: |
           set -x
           ls .
@@ -30,7 +30,7 @@ jobs:
           ls .github/workflows/
           ls -l  ./.github/workflows/action.yaml
     - name: my composite
-      uses: ./.github/workflows/action 
+      uses:  ez-leka/test-on-demand-action-runner/.github/workflows/action.yaml 
     
   check-artifact:
     runs-on: ubuntu-20.04
