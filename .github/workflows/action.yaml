@@ -5,44 +5,44 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v2
-        with:
-          submodules: recursive
+      with:
+        submodules: recursive
 
     - name: Set env
-        run: echo "CRUN_SHA=$(git rev-parse --short=12 HEAD)" >> $GITHUB_ENV
+      run: echo "CRUN_SHA=$(git rev-parse --short=12 HEAD)" >> $GITHUB_ENV
 
     - name: check artifact
-        id: check-artifact
-        uses: ez-leka/persistent-artifact@ez1
-        with:
-          github-token: ${{secrets.token}}
-          artifact-name:  p-artifact2
-          path: /tmp/kkm
-          debug: true
+      id: check-artifact
+      uses: ez-leka/persistent-artifact@ez1
+      with:
+        github-token: ${{secrets.token}}
+        artifact-name:  p-artifact2
+        path: /tmp/kkm
+        debug: true
 
     - name: Build artifact if necessary
-        if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
-        run: |
-          echo 'my artifact file content' > art.txt
-          echo '  line 1' >> art.txt
-          echo '  line 2' >> art.txt
-          echo '  line 3' >> art.txt
-          mkdir /tmp/kkm
-          mv art.txt /tmp/kkm
-          mkdir /tmp/kkm/subdir
-          echo 'subdir artifact' >> /tmp/kkm/subdir/sart.txt
+      if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
+      run: |
+        echo 'my artifact file content' > art.txt
+        echo '  line 1' >> art.txt
+        echo '  line 2' >> art.txt
+        echo '  line 3' >> art.txt
+        mkdir /tmp/kkm
+        mv art.txt /tmp/kkm
+        mkdir /tmp/kkm/subdir
+        echo 'subdir artifact' >> /tmp/kkm/subdir/sart.txt
 
     - name: Upload artifact if needed 
-        if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: p-artifact2
-          path: /tmp/kkm
-          retention-days: 7  
+      if: ${{ steps.check-artifact.outputs.artifact-status != 'available' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: p-artifact2
+        path: /tmp/kkm
+        retention-days: 7  
 
     - name: Uload unconditional artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: my-artifact
-          path: /tmp/kkm
-          retention-days: 7  
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: /tmp/kkm
+        retention-days: 7  
