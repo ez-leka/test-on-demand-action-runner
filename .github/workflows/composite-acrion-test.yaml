@@ -23,8 +23,14 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v3
+    - run: |
+          set -x
+          ls .
+          ls .github
+          ls .github/workflows/
+          ls -l  ./.github/workflows/action.yaml
     - name: my composite
-      uses: ./.github/workflows/action.yaml  
+      uses: ./.github/workflows/action 
     
   check-artifact:
     runs-on: ubuntu-20.04
