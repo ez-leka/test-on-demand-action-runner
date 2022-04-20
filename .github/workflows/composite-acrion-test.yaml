@@ -13,12 +13,19 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # starts  self-hosted runner in Clouds (AWS and AZURE suported for now). Cleanup in the stop-runner.
-  test-subworkflow:
-    uses: ./.github/workflows/get-artifact.yaml
-    name: "calling sub-workflow"
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
-      
+  # test-subworkflow:
+  #   uses: ./.github/workflows/get-artifact.yaml
+  #   name: "calling sub-workflow"
+  #   secrets:
+  #     token: ${{ secrets.GITHUB_TOKEN }}
+
+  test-action:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v3
+    - name: my composite
+      uses: actions/composite-action@ez1    
+    
   check-artifact:
     runs-on: ubuntu-20.04
     steps:
