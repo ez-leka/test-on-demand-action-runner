@@ -122,12 +122,7 @@ jobs:
   # Make sure to add dependencies in both "needs" clauses
   stop-runner:
     name: Terminate self-hosted cloud runners
-    needs: [
-      start-runner, 
-      # test-build, 
-      # ec2-run, 
-      # azure-run
-    ]
+    needs: [start-runner]
     if: always()
     runs-on: ubuntu-latest
     steps:
