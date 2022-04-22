@@ -28,18 +28,6 @@ jobs:
       //ec2-instance-id: ${{ steps.start-cloud-runner.outputs.ec2-instance-id }}
       run-ons: ${{ steps.start-cloud-runner.outputs.run-ons }}
     steps:
-      - name: Cleanup test - AWS
-        run: |
-          set -x
-          d=$(date -I --date "7 day ago")
-          vpc_id=$(aws ec2 describe-vpcs --region 'us-east-2' --query 'Vpcs[?Tags[?Key==`Name`]|[?Value==`github-runner`]].VpcId' --output text)
-          ids=$(aws ec2 --region ${AWS_REGION} describe-instances --filter Name=vpc-id,Values=$vpc_id --query "Reservations[*].Instances[?LaunchTime < '$d' && State.Name=='stopped'].InstanceId" --output text)
-          [ -z "$ids" ] || aws ec2 --region ${AWS_REGION} terminate-instances --instance-ids ${ids}
-          rgroups=$(az vm list --show-details --output tsv --query "[?starts_with(name,'runner-') && ends_with(name,'-vm') && timeCreated < '2020-08-14T' && powerState=='VM deallocated'].resourceGroup")
-          [ -z "$rgroups"] || xargs -otl az az group delete --yes --name 
-          
-
-
       - name: Get public Keys 
         uses: actions/checkout@v2
 
