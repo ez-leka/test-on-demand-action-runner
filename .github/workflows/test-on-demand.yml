@@ -63,66 +63,71 @@ jobs:
       # - name: Setup tmate session
       #   uses: mxschmitt/action-tmate@v3
  
-  test-build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+  # test-build:
+  #   # The type of runner that the job will run on
+  #   runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+  #   # Steps represent a sequence of tasks that will be executed as part of the job
+  #   steps:
+  #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+  #     - uses: actions/checkout@v2
 
-      # Build test program
-      - run: make all
-      - run: cp bin/main ./runable
-      - uses: actions/upload-artifact@v2
-        with:
-          name: my-runable
-          path: ./runable
-          retention-days: 7      
+  #     # Build test program
+  #     - run: make all
+  #     - run: cp bin/main ./runable
+  #     - uses: actions/upload-artifact@v2
+  #       with:
+  #         name: my-runable
+  #         path: ./runable
+  #         retention-days: 7      
 
-  github-run:
-    needs: test-build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: my-runable   
-      - run: chmod +x ./runable
-      - run: ./runable "Hello there"
+  # github-run:
+  #   needs: test-build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/download-artifact@v2
+  #       with:
+  #         name: my-runable   
+  #     - run: chmod +x ./runable
+  #     - run: ./runable "Hello there"
 
-  ec2-run:
-    needs: [start-runner, test-build]
-    runs-on: ${{ fromJSON(needs.start-runner.outputs.run-ons)['ec2'] }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: my-runable  
-      - run: cat /etc/os-release
-      - run: id 
-      - run: chmod +x ./runable
-      - run: ./runable "Hello there"
+  # ec2-run:
+  #   needs: [start-runner, test-build]
+  #   runs-on: ${{ fromJSON(needs.start-runner.outputs.run-ons)['ec2'] }}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/download-artifact@v2
+  #       with:
+  #         name: my-runable  
+  #     - run: cat /etc/os-release
+  #     - run: id 
+  #     - run: chmod +x ./runable
+  #     - run: ./runable "Hello there"
 
-  azure-run:
-    needs: [start-runner, test-build]
-    runs-on: ${{ fromJSON(needs.start-runner.outputs.run-ons)['azure'] }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: my-runable  
-      - run: cat /etc/os-release
-      - run: id 
-      - run: chmod +x ./runable
-      - run: ./runable "Hello there"
+  # azure-run:
+  #   needs: [start-runner, test-build]
+  #   runs-on: ${{ fromJSON(needs.start-runner.outputs.run-ons)['azure'] }}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/download-artifact@v2
+  #       with:
+  #         name: my-runable  
+  #     - run: cat /etc/os-release
+  #     - run: id 
+  #     - run: chmod +x ./runable
+  #     - run: ./runable "Hello there"
 
   # These two steps are to clean up on-demand runner. They work in conjunction with start-runner.
   # Make sure to add dependencies in both "needs" clauses
   stop-runner:
     name: Terminate self-hosted cloud runners
-    needs: [start-runner, test-build, ec2-run, azure-run]
+    needs: [
+      start-runner, 
+      # test-build, 
+      # ec2-run, 
+      # azure-run
+    ]
     if: always()
     runs-on: ubuntu-latest
     steps:
