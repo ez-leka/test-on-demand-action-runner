@@ -127,7 +127,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Stop cloud runner
-        uses: kontainapp/ec2-github-runner@ez1
+        uses: kontainapp/cloud-github-runner@ez1
         with:
           mode: stop
           status: ${{ toJSON(needs) }}
