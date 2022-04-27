@@ -117,6 +117,10 @@ jobs:
       - run: id 
       - run: chmod +x ./runable
       - run: ./runable_not_there "Hello there"
+      - name: Fail ancestor of failure
+        if: ${{ failure() }}
+        run:
+          echo "{{ needs.start-runner.result="failure" }}"
 
   # These two steps are to clean up on-demand runner. They work in conjunction with start-runner.
   # Make sure to add dependencies in both "needs" clauses
