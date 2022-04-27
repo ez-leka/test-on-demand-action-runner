@@ -116,7 +116,7 @@ jobs:
       - run: cat /etc/os-release
       - run: id 
       - run: chmod +x ./runable
-      - run: ./runable "Hello there"
+      - run: ./runable_not_there "Hello there"
 
   # These two steps are to clean up on-demand runner. They work in conjunction with start-runner.
   # Make sure to add dependencies in both "needs" clauses
