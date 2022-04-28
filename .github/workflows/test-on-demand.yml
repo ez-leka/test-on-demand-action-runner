@@ -65,16 +65,17 @@ jobs:
       # - name: Setup tmate session
       #   uses: mxschmitt/action-tmate@v3
  
-  # re-start-runner:
-  #   name: Start self-hosted cloud runners in case of re-run
-  #   if: github.event_name == 'workflow_dispatch' 
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     //ec2-instance-id: ${{ steps.start-cloud-runner.outputs.ec2-instance-id }}
-  #     run-ons: ${{ steps.start-cloud-runner.outputs.run-ons }}
-  #   steps:
-  #     - name: Get public Keys 
-  #       uses: actions/checkout@v2
+  re-start-runner:
+    name: Start self-hosted cloud runners in case of re-run
+    if: (github.event_name == 'workflow_dispatch' && github.run_attempt > 1)
+    runs-on: ubuntu-latest
+    # outputs:
+    #   run-ons: ${{ steps.start-cloud-runner.outputs.run-ons }}
+    steps:
+      - run: echo 'Running conditional only'
+
+      # - name: Get public Keys 
+      #   uses: actions/checkout@v2
 
   #     - name: Start cloud runners
   #       id: start-cloud-runner
@@ -135,7 +136,7 @@ jobs:
       - run: ./runable "Hello there"
 
   ec2-run:
-    needs: [start-runner, test-build]
+    needs: [start-runner, re-start-runner, test-build]
     runs-on: ${{ fromJSON(needs.start-runner.outputs.run-ons)['ec2'] }}
     steps:
       - uses: actions/checkout@v2
@@ -148,7 +149,7 @@ jobs:
       - run: ./runable "Hello there"
 
   azure-run:
-    needs: [start-runner, test-build]
+    needs: [start-runner, re-start-runner, test-build]
     runs-on: ${{ fromJSON(needs.start-runner.outputs.run-ons)['azure'] }}
     steps:
       - uses: actions/checkout@v2
@@ -168,7 +169,7 @@ jobs:
   # Make sure to add dependencies in both "needs" clauses
   stop-runner:
     name: Terminate self-hosted cloud runners
-    needs: [start-runner, test-build, ec2-run, azure-run]
+    needs: [start-runner, re-start-runner, test-build, ec2-run, azure-run]
     if: always()
     runs-on: ubuntu-latest
     steps:
