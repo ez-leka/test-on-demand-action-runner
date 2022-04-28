@@ -138,6 +138,7 @@ jobs:
   ec2-run:
     needs: [start-runner, re-start-runner, test-build]
     runs-on: ${{ fromJSON(needs.start-runner.outputs.run-ons)['ec2'] }}
+    if: always() && (needs.start-runner.result == 'success' || needs.re-start-runner.result == 'success')
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
@@ -159,11 +160,7 @@ jobs:
       - run: cat /etc/os-release
       - run: id 
       - run: chmod +x ./runable
-      - run: ./runable_not_there "Hello there"
-      - name: Fail ancestor of failure
-        if: ${{ failure() }}
-        run:
-          echo "{{ needs.start-runner.result="failure" }}"
+      - run: ./runable "Hello there"
 
   # These two steps are to clean up on-demand runner. They work in conjunction with start-runner.
   # Make sure to add dependencies in both "needs" clauses
