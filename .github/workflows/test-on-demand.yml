@@ -28,7 +28,7 @@ jobs:
       //ec2-instance-id: ${{ steps.start-cloud-runner.outputs.ec2-instance-id }}
       run-ons: ${{ steps.start-cloud-runner.outputs.run-ons }}
     steps:
-      - run: echo ${{ toJson(github) }} 
+      - run: echo 'Github = ${{ toJson(github) }}'
         
       - name: Get public Keys 
         uses: actions/checkout@v2
