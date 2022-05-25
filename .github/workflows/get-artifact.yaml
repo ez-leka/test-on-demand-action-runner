@@ -41,7 +41,7 @@ jobs:
         id: check-artifact
         uses: ez-leka/persistent-artifact@ez1
         with:
-          github-token: ${{secrets.token}}
+          github-token: ${{secrets.GH_TOKEN}}
           artifact-name:  p-artifact2
           path: /tmp/kkm
           debug: true
