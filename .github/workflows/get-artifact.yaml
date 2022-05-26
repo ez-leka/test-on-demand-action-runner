@@ -39,7 +39,7 @@ jobs:
 
       - name: check artifact
         id: check-artifact
-        uses: ez-leka/persistent-artifact@ez1
+        uses: ez-leka/persistent-artifact@v1
         with:
           github-token: ${{secrets.GH_TOKEN}}
           artifact-name:  p-artifact2
